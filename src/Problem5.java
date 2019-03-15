@@ -1,32 +1,42 @@
-import java.lang.reflect.Array;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Problem5 {
 
-    int calculate(String[] expression) {
-        if (expression == null || expression.length == 0)
+    public static int calculate(List<String> exp) {
+        if (exp == null || exp.size() == 0)
             throw new IllegalArgumentException("Illegal expression argument.");
 
-        if (expression.length == 1)
-            return Integer.valueOf(expression[0]);
+        if (exp.size() == 1)
+            return Integer.valueOf(exp.get(0));
 
-        switch (expression[1]) {
+        switch (exp.get(1)) {
             case "+":
-                return Integer.valueOf(expression[0]) + calculate(Arrays.copyOfRange(expression, 2, expression.length));
+                return Integer.valueOf(exp.get(0)) + calculate(exp.subList(2, exp.size()));
             case "-":
-                return Integer.valueOf(expression[0]) - calculate(Arrays.copyOfRange(expression, 2, expression.length));
+                return Integer.valueOf(exp.get(0)) - calculate(exp.subList(2, exp.size()));
             case "*":
-                int value = Integer.valueOf(expression[0]) * Integer.valueOf(expression[2])
-                if (expression.length == 3)
+                int value = Integer.valueOf(exp.get(0)) * Integer.valueOf(exp.get(2));
+                if (exp.size() == 3)
                     return value;
-                else
-                    return calculate(
-                            System.arraycopy(new String[]{"" + value}, expression)
-                    );
+                else {
+                    List<String> subExp = exp.subList(3, exp.size());
+                    subExp.add(0, "" + value);
+                    return calculate(subExp);
+                }
         }
+        throw new IllegalArgumentException();
     }
 
     public static void main(String[] args) {
-
+        List<String> exp = new ArrayList<>();
+        exp.add("12");
+        exp.add("+");
+        exp.add("12");
+        exp.add("+");
+        exp.add("12");
+        exp.add("+");
+        exp.add("12");
+        System.out.println(calculate(exp));
     }
 }
