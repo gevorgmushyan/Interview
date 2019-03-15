@@ -13,9 +13,12 @@ public class Problem4 {
             else {
                 if (count == 1)
                     encodingStr.append(ch);
-                else
+                else {
                     encodingStr.append("" + count).append(ch);
-                count = 1;
+                    count = 1;
+                }
+                if(i == str.length() - 1)
+                    encodingStr.append(str.charAt(i));
                 ch = str.charAt(i);
             }
         }
@@ -28,10 +31,10 @@ public class Problem4 {
 
         for (int i = 0; i < str.length(); i++) {
             if (Character.isDigit(str.charAt(i))) {
-                count = count * 10 + str.charAt(i);
+                count = count * 10 + Character.getNumericValue(str.charAt(i));
             } else {
                 decodingStr.append(
-                        ("" + str.charAt(i)).repeat(count)
+                        ("" + str.charAt(i)).repeat(count == 0 ? 1 : count)
                 );
                 count = 0;
             }
